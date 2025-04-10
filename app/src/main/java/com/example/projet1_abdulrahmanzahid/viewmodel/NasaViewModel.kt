@@ -19,13 +19,12 @@ class NasaViewModel : ViewModel() {
     fun updateDate(newDate: String) {
         _date.value = newDate
     }
-
+    //Test
     fun chargerTestPhoto() {
         _uiState.value = NasaDataAPI(
             date = "2025-03-28",
-            explanation = "Voici un test de description d'une image.",
-            hdurl = "https://fakeurl.com/fake.jpg",
-            title = "Test d'image"
+            explanation = "Voici un exemple d'explication de la photo du jour.",
+            hdurl = "https://apod.nasa.gov/apod/image/2503/AS17-137-20979_1024.jpg"
         )
     }
 }

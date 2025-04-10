@@ -4,5 +4,4 @@ data class NasaDataAPI(
     val date: String,
     val explanation: String,
     val hdurl: String,
-    val title: String
 )
