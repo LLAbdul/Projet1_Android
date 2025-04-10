@@ -15,16 +15,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
+import com.example.projet1_abdulrahmanzahid.createRetrofitService
+import com.example.projet1_abdulrahmanzahid.data.NasaRepo
 import com.example.projet1_abdulrahmanzahid.viewmodel.NasaViewModel
+import com.example.projet1_abdulrahmanzahid.viewmodel.NasaViewModelFactory
 import java.util.*
+import com.example.projet1_abdulrahmanzahid.Secrets
+
 
 @Composable
-fun NasaUI(viewModel: NasaViewModel = viewModel()) {
+fun NasaUI() {
+
+    val context = LocalContext.current
+    val retrofitService = remember { createRetrofitService() }
+    val repo = remember { NasaRepo(retrofitService) }
+    val factory = remember { NasaViewModelFactory(repo) }
+    val viewModel: NasaViewModel = viewModel(factory = factory)
 
     val date by viewModel.date.collectAsState()
     val uiState by viewModel.uiState.collectAsState()
 
-    val context = LocalContext.current
     val calendrier = Calendar.getInstance()
 
     val datePickerDialog = remember {
@@ -60,6 +70,7 @@ fun NasaUI(viewModel: NasaViewModel = viewModel()) {
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(8.dp)
         )
+
         OutlinedTextField(
             value = date,
             onValueChange = { viewModel.updateDate(it) },
@@ -75,16 +86,25 @@ fun NasaUI(viewModel: NasaViewModel = viewModel()) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        //TEST
+        // Bouton réel (API)
         Button(onClick = {
-            viewModel.chargerTestPhoto()
+            viewModel.chargerPhoto(Secrets.NASA_API_KEY)
         }) {
             Text("Afficher la photo")
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
-        // Affichage de la photo + texte
+        /*// TEST
+        OutlinedButton(onClick = {
+            viewModel.chargerTestPhoto()
+        }) {
+            Text("Test photo (locale)")
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+*/
+        // Affichage
         uiState?.let { nasaData ->
             Spacer(modifier = Modifier.height(8.dp))
             Image(

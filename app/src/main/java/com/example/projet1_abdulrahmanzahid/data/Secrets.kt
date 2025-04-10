@@ -1,4 +1,5 @@
-package com.example.projet1_abdulrahmanzahid.data
+package com.example.projet1_abdulrahmanzahid
 
-class Secrets {
+object Secrets {
+    const val NASA_API_KEY = "c8DIHgryXtKh1G6WeBtOutrBcOqvoICDLgi0laX9"
 }
